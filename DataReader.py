@@ -3,6 +3,9 @@ import math
 import pickle
 import os
 import cv2
+from sklearn.preprocessing import normalize
+from sklearn.decomposition import PCA
+import sklearn.cluster
 
 
 # read all the data and pickle it
@@ -21,8 +24,9 @@ class DataReader:
             for filename in os.listdir(complete_path):
                 f = os.path.join(complete_path, filename)
                 im = cv2.imread(f)
-                im = im.reshape(-1)
-                imgs.append(im)
+                if im is not None:
+                    im = im.reshape(-1)
+                    imgs.append(im)
         
         # create into numpy array
         all_imgs = np.asmatrix(imgs)
@@ -38,6 +42,16 @@ class DataReader:
 
         # keep those images
         folder_images = self.read_data([complete_path_1, complete_path_2])
+        for i in range(folder_images.shape[0]):
+            for j in range(folder_images.shape[1]):
+                if folder_images[i,j] == 255:
+                    folder_images[i,j] = 1
+
+        # km = sklearn.cluster.KMeans(n_clusters=2, max_iter=100)
+        # km.fit(folder_images)
+        # print(km.labels_)
+
+        # print(folder_images.shape)
         
         # save all the images
         np.save("AllImgs.npy", folder_images)
