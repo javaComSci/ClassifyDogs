@@ -3,7 +3,7 @@ import math
 import pickle
 
 class KMeans():
-    def __init__(self, filename, num_clusters = 2):
+    def __init__(self, filename, num_clusters = 3):
         self.data = np.load(filename)
         # self.data = np.asmatrix([[1,2,3], [4,5,6]])
         self.num_clusters = num_clusters
@@ -16,11 +16,11 @@ class KMeans():
         num_features = self.data.shape[1]
 
         # create inital cluster points
-        cluster_points = np.random.rand(self.num_clusters, num_features)
+        cluster_points = np.random.rand(self.num_clusters, num_features) * 2
         # print(cluster_points.shape)
 
         # do iterations to find the final cluster points
-        for k in range(50):
+        for k in range(300):
             if k % 10 == 0:
                 print(k)
 
